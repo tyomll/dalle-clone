@@ -19,7 +19,30 @@ const CreatePost: React.FC = () => {
     photo: '',
   });
 
-  const handleSubmit = () => {};
+  const handleSubmit = async () => {
+    if (form.prompt && form.photo) {
+      setLoading(true);
+
+      try {
+        const response = await fetch('http://localhost:8080/api/v1/post', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(form),
+        });
+
+        await response.json();
+        navigate('/');
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      alert('Please enter a prompt and generate an image.');
+    }
+  };
   const handleChange = (e: any) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -28,7 +51,7 @@ const CreatePost: React.FC = () => {
     setForm({ ...form, prompt: randomPrompt });
   };
   const generateImage = async () => {
-    if (form.prompt) {
+    if (form.prompt && form.name) {
       try {
         setGeneratingImg(true);
         const response = await fetch('http://localhost:8080/api/v1/dalle', {
@@ -46,7 +69,7 @@ const CreatePost: React.FC = () => {
         setGeneratingImg(false);
       }
     } else {
-      alert('Please enter a prompt.');
+      alert('Please fill all fields.');
     }
   };
   return (
@@ -58,13 +81,13 @@ const CreatePost: React.FC = () => {
           community
         </p>
       </div>
-      <form className="mt-16 max-w-3xl" onSubmit={handleSubmit}>
+      <div className="mt-16 max-w-3xl">
         <div className="flex flex-col gap-5">
           <FormField
             labelName="Your Name"
             type="text"
             name="name"
-            placeholder="artyom"
+            placeholder="Bruce Lee"
             value={form.name}
             handleChange={handleChange}
           />
@@ -109,11 +132,12 @@ const CreatePost: React.FC = () => {
           </p>
           <button
             type="submit"
+            onClick={handleSubmit}
             className="mt-3 text-white bg-[#6469ff] font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center">
             {loading ? 'Sharing...' : 'Share with the community'}
           </button>
         </div>
-      </form>
+      </div>
     </section>
   );
 };

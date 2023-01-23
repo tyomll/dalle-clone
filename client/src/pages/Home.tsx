@@ -64,6 +64,19 @@ const Home: React.FC = () => {
           Browse through a collection of imaginavtive and visually stuning images by DALL-E AI
         </p>
       </div>
+      <div className="bg-[#6469ff] mt-5 text-center py-2 lg:px-4 border rounded-lg">
+        <div
+          className="p-2 bg-indigo-700 items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex"
+          role="alert">
+          <span className="flex rounded-full bg-indigo-500 uppercase px-2 py-1 text-xs font-bold mr-3">
+            Note
+          </span>
+          <span className="font-semibold mr-2 text-left flex-auto">
+            The back-end is deployed on free server so if posts didn't loaded please wait 1-2
+            minute.
+          </span>
+        </div>
+      </div>
       <div className="mt-16">
         <FormField
           labelName="Search posts"
